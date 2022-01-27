@@ -35,7 +35,7 @@ const getImagesFromUnplashServer = (queryData) => {
         let client_id = "IiqmPv9eivEXrHG5uV9XuYHOp0OBxEnquG5vv9-rhIo";
         const url = `https://api.unsplash.com/search/photos?page=1&query=${queryData}&client_id=${client_id}&per_page=30`
         axios.get(url).then((res) => {
-            console.log(res);
+            document.getElementById('grid').innerHTML = "";
             loadImagesToUI(res.data.results);
         })
     }
