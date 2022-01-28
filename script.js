@@ -1,7 +1,7 @@
+let client_id = "IiqmPv9eivEXrHG5uV9XuYHOp0OBxEnquG5vv9-rhIo";
 window.addEventListener("load", () => {
     let date = new Date();
     let hour = date.getHours();
-
     if (hour >= 6 && hour <= 18) {
         document.body.style.background = "#ffffff";
         document.body.style.color = "#000";
@@ -10,13 +10,7 @@ window.addEventListener("load", () => {
         document.body.style.color = "#ffffff";
     }
 
-    /* let queryData = "india"
-    let client_id = "IiqmPv9eivEXrHG5uV9XuYHOp0OBxEnquG5vv9-rhIo";
-    const url = `https://api.unsplash.com/search/photos?page=1&query=${queryData}&client_id=${client_id}&per_page=30`
-
-    axios.get(url).then((res)=>{
-        console.log(res);
-    }) */
+    localStorage.setItem('pageNum', "1");
 })
 
 const search = () => {
@@ -30,10 +24,18 @@ const enterKeyPressHandler = (event) => {
     }
 }
 
-const getImagesFromUnplashServer = (queryData) => {
+const next = () => {
+    let pageNum = +localStorage.getItem("pageNum");
+    pageNum += 1;// pageNum = pageNum +1;
+    localStorage.setItem("pageNum", pageNum);
+    let queryData = localStorage.getItem("queryData");
+    getImagesFromUnplashServer(queryData, pageNum)
+}
+
+const getImagesFromUnplashServer = (queryData, pageNum = 1) => {
     if (!!queryData) {
-        let client_id = "IiqmPv9eivEXrHG5uV9XuYHOp0OBxEnquG5vv9-rhIo";
-        const url = `https://api.unsplash.com/search/photos?page=1&query=${queryData}&client_id=${client_id}&per_page=30`
+        localStorage.setItem("queryData", queryData);
+        const url = `https://api.unsplash.com/search/photos?page=${pageNum}&query=${queryData}&client_id=${client_id}&per_page=30`
         axios.get(url).then((res) => {
             const gridEle = document.getElementById('grid');
             gridEle.innerHTML = "";
